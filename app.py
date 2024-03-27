@@ -21,7 +21,7 @@ st.image(image, width=150)
 # App title and introduction
 st.title("Interactive Audiobook by Lyzr")
 st.markdown("### Welcome to the Interactive Audiobook!")
-st.markdown("Interactive Audiobook by Lyzr will convert children's book into interactive audiobook")
+st.markdown("Interactive Audiobook by Lyzr will convert children's stories into interactive audiobook")
 
 # Custom function to style the app
 def style_app():

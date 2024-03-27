@@ -32,7 +32,7 @@ def story_generator(prompt):
     return story
 
 def prompt(user_input):
-    prompt = f"""You are an expert to create kids story, create a complete story on this {user_input}. 
+    prompt = f"""You are an expert to create kid's stories, create a complete story on this {user_input}. 
     Make sure story obeys these points: 
      1. Story should be short and precise.
      2. Story will cover from introduction to climax in 500-700 words. 
