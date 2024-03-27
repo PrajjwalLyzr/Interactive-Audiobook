@@ -3,7 +3,6 @@ from PIL import Image
 from utils import utils
 from pathlib import Path
 import streamlit as st
-from openai import OpenAI
 from dotenv import load_dotenv; load_dotenv()
 from lyzr import VoiceBot
 
@@ -36,6 +35,10 @@ def style_app():
     """, unsafe_allow_html=True)
 
 # Interactive Audiobook Application
+
+audio_directory = 'audio'
+os.makedirs(audio_directory, exist_ok=True)
+original_directory = os.getcwd()
     
 # replace this with your openai api key or create an environment variable for storing the key.
 API_KEY = os.getenv('OPENAI_API_KEY')
@@ -43,7 +46,12 @@ API_KEY = os.getenv('OPENAI_API_KEY')
  
 def audiobook_agent(user_story:str):
     vb = VoiceBot(api_key=API_KEY)
-    vb.text_to_speech(user_story)
+    try:
+        os.chdir(audio_directory)
+        vb.text_to_speech(user_story)
+    finally:
+        os.chdir(original_directory)
+    
 
 
 if __name__ == "__main__":
@@ -59,9 +67,8 @@ if __name__ == "__main__":
             st.markdown('---')
             st.subheader('Story into audiobook')
             audiobook_agent(user_story=story)
-            current_directory = os.getcwd()
-            files = utils.get_files_in_directory(current_directory)
-            audio_file = files[-1]
+            files = utils.get_files_in_directory(audio_directory)
+            audio_file = files[0]
             st.audio(audio_file)             
         else:
             st.warning("Provide the content for story, don't keep it blank")

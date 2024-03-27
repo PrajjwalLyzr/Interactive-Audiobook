@@ -26,7 +26,7 @@ def story_generator(prompt):
         model="gpt-3.5-turbo-instruct",
         prompt=prompt,
         temperature=0.1,
-        max_tokens=500)
+        max_tokens=1000)
 
     story = response.choices[0].text.strip()
     return story
