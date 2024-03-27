@@ -6,7 +6,7 @@ from dotenv import load_dotenv; load_dotenv()
 
 # Setup your config
 st.set_page_config(
-    page_title="Assesement Generator",
+    page_title="Interactive Audiobook",
     layout="centered",  # or "wide" 
     initial_sidebar_state="auto",
     page_icon="./logo/lyzr-logo-cut.png"
@@ -17,9 +17,9 @@ image = Image.open("./logo/lyzr-logo.png")
 st.image(image, width=150)
 
 # App title and introduction
-st.title("Assesement Generator by Lyzr")
-st.markdown("### Welcome to the Assesement Generator!")
-st.markdown("Assesement Generator by Lyzr will provide you 10 insightful questions on the textbook pdf you have uploaded")
+st.title("Interactive Audiobook by Lyzr")
+st.markdown("### Welcome to the Interactive Audiobook!")
+st.markdown("Interactive Audiobook by Lyzr will convert children's book into interactive audiobook")
 
 # Custom function to style the app
 def style_app():
@@ -32,7 +32,7 @@ def style_app():
     </style>
     """, unsafe_allow_html=True)
 
-# Assesement Generator Application
+# Interactive Audiobook Application
     
 # replace this with your openai api key or create an environment variable for storing the key.
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
