@@ -2,7 +2,9 @@ import os
 from PIL import Image
 from utils import utils
 import streamlit as st
+from openai import OpenAI
 from dotenv import load_dotenv; load_dotenv()
+from lyzr import VoiceBot
 
 # Setup your config
 st.set_page_config(
@@ -35,7 +37,7 @@ def style_app():
 # Interactive Audiobook Application
     
 # replace this with your openai api key or create an environment variable for storing the key.
-os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+API_KEY = os.getenv('OPENAI_API_KEY')
 
 
 # create directory if it doesn't exist
@@ -43,9 +45,64 @@ data = "data"
 os.makedirs(data, exist_ok=True)
  
 
+def story_generator(prompt):
+    ai = OpenAI(api_key=API_KEY)
+    # Generate story using GPT-3.5 model
+    response = ai.completions.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt=prompt,
+        temperature=0.7,
+        max_tokens=500)
+
+    story = response.choices[0].text.strip()
+    return story
+
+ 
+def audiobook_agent(user_story:str):
+    vb = VoiceBot(api_key=API_KEY)
+    vb.text_to_speech(user_story)
+ 
+
+def create_convert_story():
+    topic = st.text_input('Write a topic for your story')
+    if st.button('Create'):
+        if topic is not None:
+            prompt = utils.prompt(user_input=topic)
+            story = story_generator(prompt=prompt)
+            print(story)
+            if story is not None:
+                st.subheader(f'Story on {topic}')
+                st.write(story)
+                st.markdown('---')
+                st.subheader('Convert this story into audiobook')
+                if st.button('Convert'):
+                    audiobook_agent(user_story=story)
+        
+            else:
+                st.warning('Story is not generated yet')
+
+        else:
+            st.warning("Write any topic don't keep it blank")
+
+def convert_story():
+    story = st.text_area('Paste Your Story Here', height=300)
+    if story is not None:
+        if len(story) >= 500:
+            st.warning('Story length should be less then 500 words')
+        
+        st.subheader('Convert this story into audiobook')
+        if st.button('Convert'):
+            audiobook_agent(user_story=story)
+
+
 
 if __name__ == "__main__":
     style_app()
+    if st.button("Create Story"):
+        create_convert_story()
+
+    elif st.button("Have a Story"):
+        convert_story()
 
     with st.expander("ℹ️ - About this App"):
         st.markdown("""

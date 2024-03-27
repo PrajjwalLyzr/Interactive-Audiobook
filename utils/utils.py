@@ -36,3 +36,11 @@ def save_uploaded_file(uploaded_file):
     with open(file_path, "wb") as file:
         file.write(uploaded_file.read())
     st.success("File uploaded successfully")
+
+
+def prompt(user_input):
+    prompt = f"""You are an expert to create kids story, 
+    Craft a delightful children's story brimming with adventure, laughter, and valuable lessons, spanning 400-500 words on this topic {user_input}. 
+    """
+
+    return prompt
