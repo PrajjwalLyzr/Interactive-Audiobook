@@ -1,18 +1,7 @@
 import os
-import shutil
-import streamlit as st
+from dotenv import load_dotenv; load_dotenv()
+from openai import OpenAI
 
-
-def remove_existing_files(directory):
-    for filename in os.listdir(directory):
-        file_path = os.path.join(directory, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            st.error(f"Error while removing existing files: {e}")
 
 
 def get_files_in_directory(directory):
@@ -28,19 +17,26 @@ def get_files_in_directory(directory):
 
     return files_list
 
-def save_uploaded_file(uploaded_file):
-    # Function to save uploaded file
-    remove_existing_files('data')
 
-    file_path = os.path.join('data', uploaded_file.name)
-    with open(file_path, "wb") as file:
-        file.write(uploaded_file.read())
-    st.success("File uploaded successfully")
+def story_generator(prompt):
+    API_KEY = os.getenv('OPENAI_API_KEY')
+    ai = OpenAI(api_key=API_KEY)
+   
+    response = ai.completions.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt=prompt,
+        temperature=0.1,
+        max_tokens=500)
 
+    story = response.choices[0].text.strip()
+    return story
 
 def prompt(user_input):
-    prompt = f"""You are an expert to create kids story, 
-    Craft a delightful children's story brimming with adventure, laughter, and valuable lessons, spanning 400-500 words on this topic {user_input}. 
+    prompt = f"""You are an expert to create kids story, create a complete story on this {user_input}. 
+    Make sure story obeys these points: 
+     1. Story should be short and precise.
+     2. Story will cover from introduction to climax in 500-700 words. 
+     3. Story will proivde valuable learning's for children's.
     """
 
     return prompt

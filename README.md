@@ -2,7 +2,7 @@
 
 ![Lyzr Logo](./logo/lyzr-logo.png)
 
-This Interactive Audiobook uses Lyzr's Voice bot agent to convert children's books into interactive audiobooks. VoiceBot's Text-to-Speech function can narrate the text, while the Summarize function can generate quizzes.
+This Interactive Audiobook uses Lyzr's Voice bot agent to convert children's stories into interactive audiobooks. VoiceBot's Text-to-Speech function can narrate the text.
 
 
 *Note: For this application to function properly in your local system, ensure that the required dependencies are installed and configured correctly, and make sure that you have your OpenAI API Key.*
